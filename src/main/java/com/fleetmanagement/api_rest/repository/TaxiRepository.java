@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +17,13 @@ import java.util.Optional;
  */
 public interface TaxiRepository extends JpaRepository<Taxi, Integer> {
 	// JpaRepository ya tiene métodos como findAll() para obtener todos los registros.
+
 	/*
-	Page<Taxi> findById(int id, Pageable pageable);
+	Page<Taxi> findByIdAndPlate(Integer id, String plate, Pageable pageable);
+	Page<Taxi> findById(Integer id, Pageable pageable);
 	Page<Taxi> findByPlate(String plate, Pageable pageable);
-	List<Taxi> findById(int id, Sort sort);
 	*/
+	@Query("SELECT t FROM Taxi t WHERE (:id IS NULL OR t.id = :id) AND (:plate IS NULL OR t.plate = :plate)")
+	Page<Taxi> findByIdOrPlate(@Param("id") Integer id, @Param("plate") String plate, Pageable pageable);
 
 }

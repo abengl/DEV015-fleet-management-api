@@ -28,4 +28,20 @@ public class TaxiService {
 	public Page<Taxi> getAllTaxis(Pageable pageable) {
 		return taxiRepository.findAll(pageable);
 	}
+
+	// Método para recuperar taxis con filtrado y paginación
+	public Page<Taxi> getTaxisByFilters(Integer id, String plate, Pageable pageable) {
+		return taxiRepository.findByIdOrPlate(id, plate, pageable);
+		/*
+		if (id != null && plate != null) {
+			return taxiRepository.findByIdAndPlate(id, plate, pageable);
+		} else if (id != null) {
+			return taxiRepository.findById(id, pageable);
+		} else if (plate != null) {
+			return taxiRepository.findByPlate(plate, pageable);
+		} else {
+			return taxiRepository.findAll(pageable);
+		}
+		 */
+	}
 }

@@ -37,18 +37,28 @@ public class TaxiController {
 		return ResponseEntity.ok(taxis);
 	}
 	*/
-	// Endpoint para obtener todos los taxis con paginación
+	// Endpoint para obtener todos los taxis con paginación and filter
 	//http://127.0.0.1:8080/taxis?page=1&limit=10
 	@GetMapping
 	public ResponseEntity<List<Taxi>> getAllTaxis(
+			@RequestParam(name = "id", required = false) Integer id,
+			@RequestParam(name = "plate", required = false) String plate,
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "limit", defaultValue = "10") int limit) {
 		Pageable pageable = PageRequest.of(page, limit);
-		Page<Taxi> pageTaxis = taxiService.getAllTaxis(pageable);
+		Page<Taxi> pageTaxis = taxiService.getTaxisByFilters(id, plate, pageable);
 		return ResponseEntity.ok(pageTaxis.getContent());
 	}
 
 }
+/*
+"id": 974,
+"plate": "FNDF-2678"
+
+"id": 8935,
+"plate": "GAJG-2446"
+ */
+
 /*
 Modelo: Define la estructura de la tabla taxis.
 Repositorio: Proporciona acceso a la base de datos.
