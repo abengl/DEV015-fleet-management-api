@@ -1,89 +1,89 @@
 package com.fleetmanagement.api_rest.model;
 
-import jakarta.persistence.*; // for Spring Boot 3
-
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.util.List;
-
-/*data model class corresponds to entity and table taxis
-*
-– @Entity annotation indicates that the class is a persistent Java class.
-– @Table annotation provides the table that maps this entity.
-– @Id annotation is for the primary key.
-– @GeneratedValue annotation is used to define generation strategy for the primary key. GenerationType.AUTO means
-* Auto Increment field.
-– @Column annotation is used to define the column in database that maps annotated field.
-* */
-
+/**
+ * Represents a taxi entity that is mapped to the "taxis" table in the database.
+ * This entity has two attributes: `id` (the primary key) and `plate` (the taxi's license plate).<br>
+ *
+ * This class is managed by Hibernate through the Java Persistence API (JPA) and
+ * can be used for CRUD operations within the Spring Boot framework.<br>
+ * <p>
+ * Example usage:
+ * <pre>
+ *     Taxi taxi = new Taxi(1, "ABC-123");
+ *     int id = taxi.getId();
+ *     String plate = taxi.getPlate();
+ * </pre>
+ */
 @Entity
 @Table(name = "taxis")
 public class Taxi {
 
+	/**
+	 * The primary key for the Taxi entity. This field uniquely identifies each taxi.
+	 */
 	@Id
 	private int id;
+
+	/**
+	 * The license plate number of the taxi.
+	 */
 	private String plate;
 
-	// El constructor vacío es necesario, Hibernate lo utiliza internamente para crear instancias
-	// de entidades.
+	/**
+	 * Default constructor required by Hibernate to create instances of the Taxi entity.
+	 */
 	public Taxi() {
 	}
 
+	/**
+	 * Constructs a new Taxi with the specified id and plate.
+	 *
+	 * @param id    the unique identifier for the taxi
+	 * @param plate the license plate number of the taxi
+	 */
 	public Taxi(int id, String plate) {
 		this.id = id;
 		this.plate = plate;
 	}
 
+	/**
+	 * Gets the unique identifier of the taxi.
+	 *
+	 * @return the id of the taxi
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the unique identifier of the taxi.
+	 *
+	 * @param id the id to set for the taxi
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the license plate number of the taxi.
+	 *
+	 * @return the plate of the taxi
+	 */
 	public String getPlate() {
 		return plate;
 	}
 
+	/**
+	 * Sets the license plate number of the taxi.
+	 *
+	 * @param plate the plate to set for the taxi
+	 */
 	public void setPlate(String plate) {
 		this.plate = plate;
 	}
 
-
 }
-
-/*
- * La lista trajectories en la clase Taxi permite representar que un taxi puede tener múltiples trayectorias. En
- * otras palabras, cada Taxi puede estar relacionado con varias instancias de Trajectory.
- * Tener esta lista facilita la navegación en la dirección Taxi -> Trajectories, lo que significa que puedes acceder
- * fácilmente a todas las trayectorias asociadas a un taxi específico.
- * mappedBy = "taxi" indica que la relación se gestiona desde el lado de Trajectory (especificado en @ManyToOne).
- * cascade = CascadeType.ALL asegura que las operaciones de persistencia (guardar, borrar, etc.) se propaguen
- * desde el Taxi a sus Trajectory asociados.
- * orphanRemoval = true significa que si una Trajectory se elimina de la lista en Taxi, también se eliminará de la
- * base de datos.
- */
-
-/*
-@OneToMany(mappedBy = "taxi", cascade = CascadeType.ALL, orphanRemoval = true)
-private List<Trajectory> trajectories;
-
-	public List<Trajectory> getTrajectories() {
-		return trajectories;
-	}
-
-	public void setTrajectories(List<Trajectory> trajectories) {
-		this.trajectories = trajectories;
-	}
-
-	@Override
-	public String toString() {
-		return "Taxi{" +
-				"id=" + id +
-				", plate='" + plate + '\'' +
-				'}';
-	}
-
-*/
