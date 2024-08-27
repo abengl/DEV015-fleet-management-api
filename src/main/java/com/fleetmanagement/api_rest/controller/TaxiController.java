@@ -1,7 +1,6 @@
 package com.fleetmanagement.api_rest.controller;
 
 import com.fleetmanagement.api_rest.model.Taxi;
-import com.fleetmanagement.api_rest.repository.TaxiRepository;
 import com.fleetmanagement.api_rest.service.TaxiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,132 +14,65 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/* TaxiController es una clase en el nivel de presentación (web) que maneja las solicitudes HTTP entrantes
-relacionadas con Taxi. Define los endpoints de la API y coordina la interacción entre la capa de servicios y la capa
-de repositorio.
+/**
+ * REST controller for managing {@link Taxi} entities.
+ * <p>
+ * This controller provides endpoints for retrieving taxi records from the database,
+ * with support for optional filtering by ID and license plate, as well as pagination.
+ * </p>
+ *
+ * <p>
+ * The base URI for accessing these endpoints is {@code /taxis}.
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * <pre>
+ *     GET /taxis?page=1&limit=10
+ *     GET /taxis?id=1&plate=ABC-123&page=1&limit=10
+ * </pre>
+ * </p>
+ *
+ * @see TaxiService
+ * @see Taxi
  */
 @RestController
 @RequestMapping("/taxis")
 public class TaxiController {
 	private final TaxiService taxiService;
 
+	/**
+	 * Constructs a {@link TaxiController} with the specified {@link TaxiService}.
+	 *
+	 * @param taxiService the service layer that handles business logic for {@link Taxi} entities
+	 */
 	@Autowired
 	public TaxiController(TaxiService taxiService) {
 		this.taxiService = taxiService;
 	}
 
-	/*
-	// Endpoint para obtener todos los taxis
+	/**
+	 * Retrieves a list of {@link Taxi} entities with optional filtering by ID and license plate,
+	 * and supports pagination.
+	 * <p>
+	 * If both ID and plate are provided, the results will be filtered by both. If either is
+	 * {@code null}, that filter will be ignored.
+	 * </p>
+	 *
+	 * @param id    the ID of the taxi to filter by (optional)
+	 * @param plate the license plate of the taxi to filter by (optional)
+	 * @param page  the page number to retrieve (default is 1)
+	 * @param limit the number of records per page (default is 10)
+	 * @return a {@link ResponseEntity} containing a list of {@link Taxi} entities that match the criteria
+	 */
 	@GetMapping
-	public ResponseEntity<List<Taxi>> getAllTaxis() {
-		List<Taxi> taxis = taxiService.getAllTaxis();
-		return ResponseEntity.ok(taxis);
-	}
-	*/
-	// Endpoint para obtener todos los taxis con paginación and filter
-	//http://127.0.0.1:8080/taxis?page=1&limit=10
-	@GetMapping
-	public ResponseEntity<List<Taxi>> getAllTaxis(
-			@RequestParam(name = "id", required = false) Integer id,
-			@RequestParam(name = "plate", required = false) String plate,
-			@RequestParam(name = "page", defaultValue = "1") int page,
-			@RequestParam(name = "limit", defaultValue = "10") int limit) {
+	public ResponseEntity<List<Taxi>> getAllTaxis(@RequestParam(name = "id", required = false) Integer id,
+												  @RequestParam(name = "plate", required = false) String plate,
+												  @RequestParam(name = "page", defaultValue = "1") int page,
+												  @RequestParam(name = "limit", defaultValue = "10") int limit) {
 		Pageable pageable = PageRequest.of(page, limit);
 		Page<Taxi> pageTaxis = taxiService.getTaxisByFilters(id, plate, pageable);
 		return ResponseEntity.ok(pageTaxis.getContent());
 	}
 
 }
-/*
-"id": 974,
-"plate": "FNDF-2678"
-
-"id": 8935,
-"plate": "GAJG-2446"
- */
-
-/*
-Modelo: Define la estructura de la tabla taxis.
-Repositorio: Proporciona acceso a la base de datos.
-Servicio: Contiene la lógica de negocio para manejar los taxis.
-Controlador: Maneja las solicitudes HTTP y responde con la lista de taxis.
-
- */
-/*
- *  inyección de dependencias. En esencia, permite que Spring resuelva y proporcione los objetos necesarios
- * (dependencias) a los componentes de tu aplicación de forma automática.
- * */
-
-/* Previous code that had a limit but no pagination
-
-	//
-//	@GetMapping("/")
-//	public String hello() {
-//		return "Hello";
-//	}
-
-	@GetMapping
-	public ResponseEntity<List<Taxi>>getTaxis(@RequestParam(value = "limit", defaultValue = "10") int limit){
-		List<Taxi> taxis = taxiRepository
-				.findAll()
-				.stream()
-				.limit(limit)
-				.toList();
-		return ResponseEntity.ok(taxis);
-	}
-
- */
-
-/*
-package com.fleetmanagement.api_rest.controller;
-
-import com.fleetmanagement.api_rest.model.Taxi;
-import com.fleetmanagement.api_rest.repository.TaxiRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/taxis")
-public class TaxiController {
-
-    private final TaxiRepository taxiRepository;
-
-    @Autowired
-    public TaxiController(TaxiRepository taxiRepository) {
-        this.taxiRepository = taxiRepository;
-    }
-
-    // Obtener todos los taxis con una limitación opcional
-    @GetMapping
-    public ResponseEntity<List<Taxi>> getTaxis(@RequestParam(value = "limit", required = false) Integer limit) {
-        List<Taxi> taxis = taxiRepository.findAll();
-        if (limit != null && limit > 0) {
-            taxis = taxis.stream().limit(limit).toList();
-        }
-        return ResponseEntity.ok(taxis);
-    }
-
-    // Obtener todos los taxis con paginación
-    @GetMapping("/paged")
-    public ResponseEntity<List<Taxi>> getTaxisPaged(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                    @RequestParam(value = "size", defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        List<Taxi> taxis = taxiRepository.findAll(pageable).getContent();
-        return ResponseEntity.ok(taxis);
-    }
-
-    // Obtener un taxi por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Taxi> getTaxiById(@PathVariable Integer id) {
-        Optional<Taxi> taxi = taxiRepository.findById(id);
-        return taxi.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-}
-
- */
