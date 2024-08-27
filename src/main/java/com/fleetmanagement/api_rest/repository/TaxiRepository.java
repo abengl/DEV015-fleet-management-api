@@ -11,12 +11,12 @@ import org.springframework.data.repository.query.Param;
  * Repository interface for {@link Taxi} entities, providing basic CRUD operations
  * and custom queries for filtering and pagination. This interface extends
  * {@link JpaRepository}, inheriting several methods to interact with the database
- * without needing to write boilerplate code.<br>
- *
+ * without needing to write boilerplate code.
+ * <p>
  * The {@link TaxiRepository} interface offers a custom query method
  * {@link #findByIdOrPlate(Integer, String, Pageable)} that allows for
- * filtering {@link Taxi} entities by either ID, plate, or both. <br>
- *
+ * filtering {@link Taxi} entities by either ID, plate, or both.
+ * <p>
  * Example usage:
  * <pre>
  *     Page<Taxi> taxis = taxiRepository.findByIdOrPlate(1, "ABC-123", PageRequest.of(0, 10));
@@ -33,8 +33,8 @@ public interface TaxiRepository extends JpaRepository<Taxi, Integer> {
 	 * If both parameters are provided, the method will filter by both fields.
 	 * If either parameter is {@code null}, it will be ignored in the query.
 	 *
-	 * @param id the ID of the taxi to filter by (can be {@code null})
-	 * @param plate the license plate of the taxi to filter by (can be {@code null})
+	 * @param id       the ID of the taxi to filter by (can be {@code null})
+	 * @param plate    the license plate of the taxi to filter by (can be {@code null})
 	 * @param pageable the pagination information
 	 * @return a {@link Page} of {@link Taxi} entities matching the criteria
 	 */
