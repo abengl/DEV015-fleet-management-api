@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 /**
  * Represents a taxi entity that is mapped to the "taxis" table in the database.
  * This entity has two attributes: `id` (the primary key) and `plate` (the taxi's license plate).<br>
- *
+ * <p>
  * This class is managed by Hibernate through the Java Persistence API (JPA) and
  * can be used for CRUD operations within the Spring Boot framework.<br>
  * <p>
