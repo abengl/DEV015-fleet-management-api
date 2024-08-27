@@ -15,7 +15,7 @@ import org.springframework.data.repository.query.Param;
  *
  * The {@link TaxiRepository} interface offers a custom query method
  * {@link #findByIdOrPlate(Integer, String, Pageable)} that allows for
- * filtering {@link Taxi} entities by either ID, plate, or both. <brZ
+ * filtering {@link Taxi} entities by either ID, plate, or both. <br>
  *
  * Example usage:
  * <pre>
