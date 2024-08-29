@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.Matchers.hasSize;
 
 @DataJpaTest
 class TaxiRepositoryTest {
@@ -42,7 +40,6 @@ class TaxiRepositoryTest {
 		Page<Taxi> found = taxiRepository.findByIdOrPlate(id, plate, pageable);
 		System.out.println(found);
 		// Then
-		//assertThat(found.getContent()).hasSize(1);
 		assertThat(found.getContent().get(0).getId()).isEqualTo(id);
 		assertThat(found.getContent().get(0).getPlate()).isEqualTo(plate);
 	}
