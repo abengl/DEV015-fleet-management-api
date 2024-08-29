@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Test of the Taxi model using JUnit5")
+@DisplayName("Taxi model Unit Test with JUnit5")
 public class TaxiTest {
 
 	@Test
-	@DisplayName("Testing the class model instantiation")
+	@DisplayName("1-Testing the class model instantiation")
 	public void testTaxiModel() {
 		// Set up the environment and assumptions
 		// Run the app
@@ -19,7 +19,7 @@ public class TaxiTest {
 		assertEquals("ABC-123", taxi.getPlate());
 	}
 	@Test
-	@DisplayName("Testing the class model modification")
+	@DisplayName("2-Testing the class model modification")
 	public void testTaxiModelSet() {
 		// Set up the environment and assumptions
 		// Run the app
