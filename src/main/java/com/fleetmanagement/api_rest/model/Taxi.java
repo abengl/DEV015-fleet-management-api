@@ -26,7 +26,7 @@ public class Taxi {
 	 * The primary key for the Taxi entity. This field uniquely identifies each taxi.
 	 */
 	@Id
-	private int id;
+	private Integer id;
 
 	/**
 	 * The license plate number of the taxi.
