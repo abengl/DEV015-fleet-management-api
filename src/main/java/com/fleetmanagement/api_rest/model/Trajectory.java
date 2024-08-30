@@ -1,15 +1,12 @@
 package com.fleetmanagement.api_rest.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Getter
 @Setter
@@ -26,10 +23,19 @@ public class Trajectory {
 	@JsonIgnore
 	private Taxi taxiId;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "date")
-	private Date date;
+	private Timestamp date;
 
+	@Transient
+	private String formattedDate;
+
+	@JsonGetter("date")
+	public String getFormattedDate() {
+		if (date != null) {
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+		}
+		return null;
+	}
 
 	@Column(name = "latitude")
 	private double latitude;

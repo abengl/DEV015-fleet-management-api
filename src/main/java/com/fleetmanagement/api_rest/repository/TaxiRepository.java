@@ -46,7 +46,9 @@ public interface TaxiRepository extends JpaRepository<Taxi, Integer> {
 	Page<Taxi> findByIdOrPlate(@Param("id") Integer id, @Param("plate") String plate, Pageable pageable);*/
 
 	// Other methods to filter by id or plate:
-	 Page<Taxi> findByIdAndPlate(Integer id, String plate, Pageable pageable);
+	boolean existsById(Integer id);
+
+	Page<Taxi> findByIdAndPlate(Integer id, String plate, Pageable pageable);
 	 Page<Taxi> findById(Integer id, Pageable pageable);
 	 Page<Taxi> findByPlate(String plate, Pageable pageable);
 
