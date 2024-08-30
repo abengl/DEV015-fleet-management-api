@@ -21,6 +21,8 @@ import lombok.Setter;
  *     String plate = taxi.getPlate();
  * </pre>
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "taxis")
 public class Taxi {
@@ -29,13 +31,12 @@ public class Taxi {
 	 * The primary key for the Taxi entity. This field uniquely identifies each taxi.
 	 */
 	@Id
-	@Getter @Setter @Column(name = "id")
 	private Integer id;
 
 	/**
 	 * The license plate number of the taxi.
 	 */
-	@Getter @Setter @Column(name = "plate")
+	@Column(name = "plate")
 	private String plate;
 
 	/**
