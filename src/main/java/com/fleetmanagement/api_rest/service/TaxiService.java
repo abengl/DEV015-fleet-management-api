@@ -73,7 +73,29 @@ public class TaxiService {
 	 * @param pageable the pagination information
 	 * @return a {@link Page} of {@link Taxi} entities matching the criteria
 	 */
-	public Page<Taxi> getTaxisByFilters(Integer id, String plate, Pageable pageable) {
+	/*public Page<Taxi> getTaxisByFilters(Integer id, String plate, Pageable pageable) {
 		return taxiRepository.findByIdOrPlate(id, plate, pageable);
+	}*/
+
+	/**
+	 * Retrieves {@link Taxi} entities based on the provided ID and/or license plate,
+	 * with pagination. If both ID and plate are provided, the results will be filtered
+	 * by both. If either is {@code null}, that filter will be ignored.
+	 *
+	 * @param id       the ID of the taxi to filter by (can be {@code null})
+	 * @param plate    the license plate of the taxi to filter by (can be {@code null})
+	 * @param pageable the pagination information
+	 * @return a {@link Page} of {@link Taxi} entities matching the criteria
+	 */
+	public Page<Taxi> getTaxiByIdAndPlate(Integer id, String plate, Pageable pageable) {
+		if (id != null && plate != null) {
+			return taxiRepository.findByIdAndPlate(id, plate, pageable);
+		} else if (id != null) {
+			return taxiRepository.findById(id, pageable);
+		} else if (plate != null) {
+			return taxiRepository.findByPlate(plate, pageable);
+		} else {
+			return taxiRepository.findAll(pageable);
+		}
 	}
 }

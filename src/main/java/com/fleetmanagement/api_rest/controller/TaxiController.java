@@ -71,7 +71,7 @@ public class TaxiController {
 												  @RequestParam(name = "page", defaultValue = "1") int page,
 												  @RequestParam(name = "limit", defaultValue = "10") int limit) {
 		Pageable pageable = PageRequest.of(page, limit);
-		Page<Taxi> pageTaxis = taxiService.getTaxisByFilters(id, plate, pageable);
+		Page<Taxi> pageTaxis = taxiService.getTaxiByIdAndPlate(id, plate, pageable);
 		return ResponseEntity.ok(pageTaxis.getContent());
 	}
 

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * Repository interface for {@link Taxi} entities, providing basic CRUD operations
@@ -26,6 +27,8 @@ import org.springframework.data.repository.query.Param;
  * @see JpaRepository
  * @see Taxi
  */
+
+@Repository
 public interface TaxiRepository extends JpaRepository<Taxi, Integer> {
 
 	/**
@@ -38,12 +41,13 @@ public interface TaxiRepository extends JpaRepository<Taxi, Integer> {
 	 * @param pageable the pagination information
 	 * @return a {@link Page} of {@link Taxi} entities matching the criteria
 	 */
+	/*
 	@Query("SELECT t FROM Taxi t WHERE (:id IS NULL OR t.id = :id) AND (:plate IS NULL OR t.plate = :plate)")
-	Page<Taxi> findByIdOrPlate(@Param("id") Integer id, @Param("plate") String plate, Pageable pageable);
+	Page<Taxi> findByIdOrPlate(@Param("id") Integer id, @Param("plate") String plate, Pageable pageable);*/
 
 	// Other methods to filter by id or plate:
-	// Page<Taxi> findByIdAndPlate(Integer id, String plate, Pageable pageable);
-	// Page<Taxi> findById(Integer id, Pageable pageable);
-	// Page<Taxi> findByPlate(String plate, Pageable pageable);
+	 Page<Taxi> findByIdAndPlate(Integer id, String plate, Pageable pageable);
+	 Page<Taxi> findById(Integer id, Pageable pageable);
+	 Page<Taxi> findByPlate(String plate, Pageable pageable);
 
 }
