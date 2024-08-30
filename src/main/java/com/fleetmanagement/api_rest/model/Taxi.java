@@ -1,8 +1,11 @@
 package com.fleetmanagement.api_rest.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a taxi entity that is mapped to the "taxis" table in the database.
@@ -26,11 +29,13 @@ public class Taxi {
 	 * The primary key for the Taxi entity. This field uniquely identifies each taxi.
 	 */
 	@Id
+	@Getter @Setter @Column(name = "id")
 	private Integer id;
 
 	/**
 	 * The license plate number of the taxi.
 	 */
+	@Getter @Setter @Column(name = "plate")
 	private String plate;
 
 	/**
@@ -47,42 +52,6 @@ public class Taxi {
 	 */
 	public Taxi(int id, String plate) {
 		this.id = id;
-		this.plate = plate;
-	}
-
-	/**
-	 * Gets the unique identifier of the taxi.
-	 *
-	 * @return the id of the taxi
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the unique identifier of the taxi.
-	 *
-	 * @param id the id to set for the taxi
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Gets the license plate number of the taxi.
-	 *
-	 * @return the plate of the taxi
-	 */
-	public String getPlate() {
-		return plate;
-	}
-
-	/**
-	 * Sets the license plate number of the taxi.
-	 *
-	 * @param plate the plate to set for the taxi
-	 */
-	public void setPlate(String plate) {
 		this.plate = plate;
 	}
 
